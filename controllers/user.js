@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcrypt-nodejs');
 const User = require('../models/user');
+const jwt = require('../services/jwt');
 
 function saveUser(req, res){
     const params = req.body;
@@ -37,6 +38,7 @@ function loginUser(req, res){
                     if(check){
                         if(params.gethash){
                             // Devolver un token de JWT
+                            res.status(200).send({ token: jwt.createToken(user) });
                         }else{
                             res.status(200).send({ data: user });
                         }
