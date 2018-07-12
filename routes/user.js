@@ -12,12 +12,21 @@ api.post('/user/save', celebrate({
         name: Joi.string().required(),
         surname: Joi.string().required(),
         email: Joi.string().email().required(),
-        password: Joi.string().required(),
+        password: Joi.required(),
         role: Joi.string().required(),
         image: Joi.string()
     }).unknown()
 }), (error, req, res, next) => {
     res.status(200).send(MessageError.MESSAGE_ERROR_FIELDS);
 }, UserController.saveUser);
+
+api.post('/user/login', celebrate({
+    body: Joi.object().keys({
+        email: Joi.string().email().required(),
+        password: Joi.required()
+    }).unknown()
+}), (error, req, res, next) => {
+    res.status(200).send(MessageError.MESSAGE_INVALID_FIELD);
+}, UserController.loginUser)
 
 module.exports = api;
