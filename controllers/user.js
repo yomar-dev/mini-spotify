@@ -21,6 +21,35 @@ function saveUser(req, res){
     }));
 }
 
+function loginUser(req, res){
+    const params = req.body;
+    const email = params.email;
+    const password = params.password;
+
+    User.findOne({ email: email.toLowerCase() }, (err, user) => {
+        if(err){
+            res.status(200).send({ message: "Problemas al consultar el usuario." });
+        }else{
+            if(!user){
+                res.status(200).send({ message: "Datos incorrectos." });
+            }else{
+                bcrypt.compare(password, user.password, (err, check) => {
+                    if(check){
+                        if(params.gethash){
+                            // Devolver un token de JWT
+                        }else{
+                            res.status(200).send({ data: user });
+                        }
+                    }else{
+                        res.status(200).send({ message: "Datos incorrectos." });
+                    }
+                })
+            }
+        }
+    })
+}
+
 module.exports = {
-    saveUser
+    saveUser,
+    loginUser
 }
