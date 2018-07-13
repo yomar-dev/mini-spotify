@@ -51,6 +51,23 @@ function loginUser(req, res){
     })
 }
 
+function updateUser(req, res){
+    const userId = req.params.id;
+    const data = req.body;
+
+    User.findByIdAndUpdate(userId, data, (error, userUpdated) => {
+        if(error){
+            res.status(500).send({ message: "Problemas al actualizar el usuario." });
+        }else{
+            if(!userUpdated){
+                res.status(404).send({ message: "No se ha podido actualizar el usuario." });
+            }else{
+                res.status(200).send({ message: "Usuario actualizado con éxito.", data: userUpdated });
+            }
+        }
+    })
+}
+
 function test(req, res){
     res.status(200).send({ message: "Prueba exitosa." });
 }
@@ -58,5 +75,6 @@ function test(req, res){
 module.exports = {
     saveUser,
     loginUser,
+    updateUser,
     test
 }
