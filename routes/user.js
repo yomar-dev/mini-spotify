@@ -28,7 +28,9 @@ api.post('/user/login', celebrate({
     }).unknown()
 }), (error, req, res, next) => {
     res.status(200).send(MessageError.MESSAGE_INVALID_FIELD);
-}, UserController.loginUser)
+}, UserController.loginUser);
+
+api.put('/user/update/:id',md_auth.ensureAuth, UserController.updateUser);
 
 api.get('/user/test', md_auth.ensureAuth, UserController.test);
 
