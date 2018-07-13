@@ -51,7 +51,12 @@ function loginUser(req, res){
     })
 }
 
+function test(req, res){
+    res.status(200).send({ message: "Prueba exitosa." });
+}
+
 module.exports = {
     saveUser,
-    loginUser
+    loginUser,
+    test
 }
