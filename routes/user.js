@@ -4,6 +4,7 @@ const express = require('express');
 const { celebrate, Joi } = require('celebrate');
 const MessageError = require('../utilities/MessageResponse');
 const UserController = require('../controllers/user');
+const md_auth = require('../middlewares/authenticated');
 
 const api = express.Router();
 
@@ -28,5 +29,7 @@ api.post('/user/login', celebrate({
 }), (error, req, res, next) => {
     res.status(200).send(MessageError.MESSAGE_INVALID_FIELD);
 }, UserController.loginUser)
+
+api.get('/user/test', md_auth.ensureAuth, UserController.test);
 
 module.exports = api;
