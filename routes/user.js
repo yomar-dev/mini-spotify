@@ -5,6 +5,8 @@ const { celebrate, Joi } = require('celebrate');
 const MessageError = require('../utilities/MessageResponse');
 const UserController = require('../controllers/user');
 const md_auth = require('../middlewares/authenticated');
+const multipart = require('connect-multiparty');
+const md_upload = multipart({ uploadDir: './uploads/users' });
 
 const api = express.Router();
 
@@ -30,7 +32,8 @@ api.post('/user/login', celebrate({
     res.status(200).send(MessageError.MESSAGE_INVALID_FIELD);
 }, UserController.loginUser);
 
-api.put('/user/update/:id',md_auth.ensureAuth, UserController.updateUser);
+api.put('/user/update/:id', md_auth.ensureAuth, UserController.updateUser);
+api.post('/user/upload-image/:id', [md_auth.ensureAuth, md_upload], UserController.uploadImage);
 
 api.get('/user/test', md_auth.ensureAuth, UserController.test);
 
