@@ -112,6 +112,7 @@ function uploadImage(req, res){
     if(req.files){
         const file_path = req.files.image.path;
         const file_split = file_path.split('/');
+        //const file_split = file_path.split('\\');
         const file_name = file_split[2];
         console.log("Nombre Imagen: ", file_name);
 
