@@ -105,11 +105,54 @@ function deleteArtist(req, res){
         }
     });
 }
+function uploadImage(req, res){
+    const artistId = req.params.id;
+    let file_name = '...';
+    
+    if(req.files){
+        const file_path = req.files.image.path;
+        const file_split = file_path.split('/');
+        const file_name = file_split[2];
+        console.log("Nombre Imagen: ", file_name);
+
+        const ext_split = file_name.split('.');
+        const file_ext = ext_split[1];
+
+        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'gif'){
+            Artist.findByIdAndUpdate(artistId, { image: file_name }, (err, artistUpdated) => {
+                if(!artistUpdated){
+                    res.status(404).send({ message: "No se ha podido actualizar la imagen del artista." });
+                }else{
+                    res.status(200).send({ message: "Imagen del artista actualizada con éxito.", artist: artistUpdated });
+                }
+            })
+        }else{
+            res.status(200).send({ message: "Tipo de archivo no valido." });
+        }
+    }else{
+        res.status(200).send({ message: "No se ha subido ninguna imagen." });
+    }
+}
+
+function getImage(req, res){
+    const imageFile = req.params.imageFile;
+    const path_file = './uploads/artists/' + imageFile;
+
+    fs.exists(path_file, (exists) => {
+        if(exists){
+            res.sendFile(path.resolve(path_file));
+        }else{
+            res.status(200).send({ message: "La imagen no existe." });
+        }
+    });
+}
 
 module.exports = {
     getArtists,
     getArtist,
     saveArtist,
     updateArtist,
-    deleteArtist
+    deleteArtist,
+    uploadImage,
+    getImage
 }
