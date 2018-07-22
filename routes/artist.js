@@ -8,6 +8,8 @@ const ArtistController = require('../controllers/artist');
 
 const api = express.Router();
 
+api.get('/artists/:page?', md_auth.ensureAuth, ArtistController.getArtists);
+
 api.get('/artist/:id', md_auth.ensureAuth, ArtistController.getArtist);
 
 /*api.post('/artist/save', celebrate({
