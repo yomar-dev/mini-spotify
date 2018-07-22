@@ -23,4 +23,6 @@ api.get('/artist/:id', md_auth.ensureAuth, ArtistController.getArtist);
 
 api.post('/artist/save', md_auth.ensureAuth, ArtistController.saveArtist);
 
+api.put('/artist/:id', md_auth.ensureAuth, ArtistController.updateArtist);
+
 module.exports = api;

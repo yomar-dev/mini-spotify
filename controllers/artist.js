@@ -53,8 +53,26 @@ function saveArtist(req, res){
     });
 }
 
+function updateArtist(req, res){
+    const artistId = req.params.id;
+    const data = req.body;
+
+    Artist.findByIdAndUpdate(artistId, data, (error, artistUpdated) => {
+        if(error){
+            res.status(500).send({ message: "Problemas al actualizar el artista." });
+        }else{
+            if(!artistUpdated){
+                res.status(404).send({ message: "No se ha podido actualizar el artista." });
+            }else{
+                res.status(200).send({ message: "Artista actualizado con éxito.", artist: artistUpdated });
+            }
+        }
+    });
+}
+
 module.exports = {
     getArtists,
     getArtist,
-    saveArtist
+    saveArtist,
+    updateArtist
 }
