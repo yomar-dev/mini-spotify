@@ -12,5 +12,6 @@ const md_upload = multipart({ uploadDir: './uploads/album' });
 const api = express.Router();
 
 api.get('/album/', md_auth.ensureAuth, AlbumController.getAlbum);
+api.post('/album/', md_auth.ensureAuth, AlbumController.saveAlbum);
 
 module.exports = api;
